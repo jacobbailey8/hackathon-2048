@@ -1,0 +1,32 @@
+body {
+    text-align: center;
+}
+
+div#game-grid {
+    margin: 0 30% 0 30%;
+    border: 5px solid rgb(58, 58, 58);
+    background: rgb(58, 58, 58);
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+}
+div.cell {
+    border: 5px solid black;
+    min-width: 50px;
+    min-height: 50px;
+    vertical-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7%;
+}
+div.full {
+    background-color: rgb(255, 68, 68);
+}
+div.empty {
+    background-color:rgb(92, 92, 92);
+}

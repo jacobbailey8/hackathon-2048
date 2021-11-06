@@ -46,14 +46,21 @@ class Game {
             console.log("left");
         }else if(e.key == "s" || e.key == "ArrowDown") {
             console.log("down");
-        }else if(e.key == "d" || e.key == "ArrowLeft") {
+        }else if(e.key == "d" || e.key == "ArrowRight") {
             console.log("right");
         }
+        this.checkGameOver();
     }
     //check for game over conditions
     checkGameOver() {
         //loop through this.board for 2048 block
-
+        is2048 = false;
+        this.board.forEach(row => {
+            row.forEach(block => {
+                is2048 = is2048 || (block.value == 2048);
+            });
+        });
+        console.log(is2048);
         //calculate legal moves??
     }
     //helper function to generate a random index from 0 to board size

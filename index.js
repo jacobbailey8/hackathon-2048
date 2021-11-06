@@ -1,4 +1,7 @@
 //plays the game...
-ui = new UIHandler();
-play = new Game(ui);
-play.startGame();
+let ui = new UIHandler();
+let play = new Game(ui);
+
+ui.sizeGrid();
+document.addEventListener("keydown", play.move);
+play.startGame(4,4);

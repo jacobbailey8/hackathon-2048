@@ -1,10 +1,19 @@
 body {
     text-align: center;
+    font-family: "Rubik", "Roboto";
+    background-color: rgb(194, 194, 194);
 }
-
+div#endgame-alert {
+    position: absolute;
+    background: gray;
+    padding: 25px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 div#game-grid {
     margin: 0 30% 0 30%;
-    border: 5px solid rgb(58, 58, 58);
+    border: 10px solid rgb(58, 58, 58);
     background: rgb(58, 58, 58);
 
     display: grid;
@@ -18,15 +27,19 @@ div.cell {
     min-width: 50px;
     min-height: 50px;
     vertical-align: center;
+    font-size: 30px;
 
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 7%;
 }
-div.full {
+.full {
     background-color: rgb(255, 68, 68);
 }
-div.empty {
+.empty {
     background-color:rgb(92, 92, 92);
+}
+.hidden {
+    display: none;
 }

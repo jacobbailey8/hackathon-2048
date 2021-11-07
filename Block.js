@@ -111,7 +111,7 @@ function MoveRight(userBoard){
         for(j = userBoard.length - 1; j >= 0; j-- ){
             var block = userBoard[i][j];
             
-
+            //add matches
             if (block.col > 0 && userBoard[i][block.col].value == userBoard[i][block.col - 1].value){
                 userBoard[i][block.col].value = block.value *= 2;
                 userBoard[i][block.col - 1].value = 0;
@@ -383,7 +383,7 @@ values(gameBoard);
 
 
 
-
+/*
 while(EndGame(gameBoard) == false && Winner(gameBoard) == false){
 
     var num = RandomIndex();
@@ -418,7 +418,7 @@ if (Winner(gameBoard) == true){
 }
 else{
     console.log("You suck!");
-}
+} */
 
 
 

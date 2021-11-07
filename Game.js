@@ -14,16 +14,19 @@ class Game {
             this.board.push([]);
             for(let j = 0; j < col; j++){
                 this.board[i].push(new Block(i, j, 0));
-                //update ui, draw empty board
-                let loc = [i, j];
-                this.ui.removeBlock(loc);
             }
         }
+        //clear ui board
+        this.ui.clearBoard(row);
         //place beginning blocks
         let loc1 = this.createBlock();
-        this.ui.addBlock(loc1, 2);
         let loc2 = this.createBlock();
-        this.ui.addBlock(loc2, 2);
+        //redraw board
+        this.ui.drawBoard(this.board);
+
+        //while(EndGame(gameBoard) == false && Winner(gameBoard) == false) {
+            //user makes a move
+        //}
     }
     //generates a new block and adds it to this.board
     //TAKEN FROM BLOCK.JS spawn but added return for ui purposes
@@ -36,33 +39,250 @@ class Game {
             j = this.randomIndex();
         }
         this.board[i][j].value = 2;
+
+        if (this.randomIndex() <= 1){
+            this.board[i][j].value = 2;
+        }
+    
+        else{
+            this.board[i][j].value = 4;
+        }
         return [i,j];
     }
     //handles keyboard input and moves blocks
-    move(e) {
-        if(e.key == "w" || e.key == "ArrowUp") {
-            console.log("up");
-        }else if(e.key == "a" || e.key == "ArrowLeft") {
-            console.log("left");
-        }else if(e.key == "s" || e.key == "ArrowDown") {
-            console.log("down");
-        }else if(e.key == "d" || e.key == "ArrowRight") {
-            console.log("right");
+    move(key) {
+        if(key == "w" || key == "ArrowUp") {
+            this.MoveUp(this.board);
+        }else if(key == "a" || key == "ArrowLeft") {
+            this.MoveLeft(this.board);
+        }else if(key == "s" || key == "ArrowDown") {
+            this.MoveDown(this.board);
+        }else if(key == "d" || key == "ArrowRight") {
+            this.MoveRight(this.board);  
         }
-        this.checkGameOver();
+
+        this.ui.drawBoard(this.board);
+        if(this.EndGame(this.board) == true || this.Winner(this.board) == true) {
+            this.ui.displayGameOver(this.Winner(this.board));
+        }
     }
-    //check for game over conditions
-    checkGameOver() {
-        //loop through this.board for 2048 block
-        is2048 = false;
-        this.board.forEach(row => {
-            row.forEach(block => {
-                is2048 = is2048 || (block.value == 2048);
-            });
-        });
-        console.log(is2048);
-        //calculate legal moves??
+    MoveRight(userBoard){
+        console.log("moving right...");
+        let counter = 0;
+        userBoard = this.ShiftRight(userBoard);
+        for (let i = 0; i < userBoard.length; i++){
+            for(let j = userBoard.length - 1; j >= 0; j-- ){
+                var block = userBoard[i][j];
+                
+                //add matches
+                if (block.col > 0 && userBoard[i][block.col].value == userBoard[i][block.col - 1].value){
+                    userBoard[i][block.col].value = block.value *= 2;
+                    userBoard[i][block.col - 1].value = 0;
+                    counter++;
+                    
+                }
+                
+            
+            }
+    
+    
+    
+        }
+        userBoard = this.ShiftRight(userBoard);
+        //if (counter > 0){
+            this.spawn(userBoard);
+        //}
+        //values(userBoard);
+        return userBoard;
+    
     }
+    ShiftRight(userBoard){
+    
+        for (i = 0; i < userBoard.length; i++){
+            for(j = userBoard.length - 1; j >= 0; j-- ){
+                var block = userBoard[i][j];
+                
+                
+                while(block.value > 0 && (block.col < userBoard.length - 1) && (block.col >= 0) && (userBoard[i][block.col + 1].value == 0 )){
+                    if (userBoard[i][block.col + 1].value == 0 ){
+                        let temp = userBoard[i][block.col + 1].value;
+                        userBoard[i][block.col + 1].value = userBoard[i][block.col].value;
+                        userBoard[i][block.col].value = temp;
+                        counter++;
+                        block = userBoard[i][block.col + 1];
+    
+    
+                    }
+                    
+                    
+                }
+    
+            }
+        }
+        return userBoard;
+    
+    
+    }
+    MoveLeft(userBoard){
+        let counter = 0;
+        userBoard = ShiftLeft(userBoard);
+        for (let i = 0; i < userBoard.length; i++){
+            for(let j = 0; j < userBoard.length; j++ ){
+                var block = userBoard[i][j];
+                
+    
+                if (block.col < userBoard.length - 1 && userBoard[i][block.col].value == userBoard[i][block.col + 1].value){
+                    userBoard[i][block.col].value = block.value *= 2;
+                    userBoard[i][block.col + 1].value = 0;
+                    counter++;
+                    
+                }
+                
+            
+            }
+    
+    
+    
+        }
+        userBoard = ShiftLeft(userBoard);
+        //if (counter > 0){
+            spawn(userBoard);
+        //}
+        return userBoard;
+    
+    }
+    ShiftLeft(userBoard){
+        for (let i = 0; i < userBoard.length; i++){
+            for(let j = 0; j < userBoard.length; j++ ){
+                var block = userBoard[i][j];
+                
+                
+                while(block.value > 0 && (block.col > 0) && (block.col < userBoard.length) && (userBoard[i][block.col - 1].value == 0)){
+                    let temp = userBoard[i][block.col - 1].value;
+                    userBoard[i][block.col - 1].value = userBoard[i][block.col].value;
+                    userBoard[i][block.col].value = temp;
+                    counter++;
+                    block = userBoard[i][block.col - 1];
+    
+    
+                }
+                    
+                    
+            }
+    
+        }
+    
+        return userBoard;
+    
+    }
+    MoveUp(userBoard){
+        let counter = 0;
+    
+        userBoard = ShiftUp(userBoard);
+        for (let i = 0; i < userBoard.length; i++){
+            for(let j = 0; j < userBoard.length; j++ ){
+                var block = userBoard[i][j];
+                
+    
+                if (block.row < userBoard.length - 1 && userBoard[block.row][j].value == userBoard[block.row + 1][j].value){
+                    userBoard[block.row][j].value = block.value *= 2;
+                    userBoard[block.row + 1][j].value = 0;
+                    counter++;
+                    
+                }
+                
+            
+            }
+    
+    
+    
+        }
+        userBoard = ShiftUp(userBoard);
+        //if (counter > 0){
+            spawn(userBoard);
+        //}
+        return userBoard;
+    
+    }
+    ShiftUp(userBoard){
+
+        for (let i = 0; i < userBoard.length; i++){
+            for(let j = 0; j < userBoard.length; j++ ){
+                var block = userBoard[i][j];
+    
+                while(block.value > 0 && (block.row > 0) && (userBoard[block.row - 1][j].value == 0)){
+                    let temp = userBoard[block.row - 1][j].value;
+                    userBoard[block.row - 1][j].value = userBoard[block.row][j].value;
+                    userBoard[block.row][j].value = temp;
+                    counter++;
+                    block = userBoard[block.row - 1][j];
+    
+                   
+    
+                }
+    
+            }
+    
+        }
+    
+        return userBoard;
+    
+    }
+    MoveDown(userBoard){
+        let counter = 0;
+        userBoard = ShiftDown(userBoard);
+        for (let i = userBoard.length - 1; i >= 0; i--){
+            for(let j = userBoard.length - 1; j >= 0; j-- ){
+                var block = userBoard[i][j];
+                
+    
+                if (block.row > 0 && userBoard[block.row][j].value == userBoard[block.row - 1][j].value){
+                    userBoard[block.row][j].value = block.value *= 2;
+                    userBoard[block.row - 1][j].value = 0;
+                    counter++;
+                    
+                }
+                
+            
+            }
+    
+    
+    
+        }
+        userBoard = ShiftDown(userBoard);
+        //if (counter > 0){
+            spawn(userBoard);
+        //}
+        return userBoard;
+    
+    }
+    ShiftDown(userBoard){
+
+        for (let i = userBoard.length - 1; i >= 0; i--){
+            for(let j = userBoard.length - 1; j >= 0; j-- ){
+                var block = userBoard[i][j];
+                
+                
+                while(block.value > 0 && (block.row < userBoard.length - 1) && (block.row >= 0) && (userBoard[block.row + 1][j].value == 0 )){
+                    if (userBoard[block.row + 1][j].value == 0 ){
+                        let temp = userBoard[block.row + 1][j].value;
+                        userBoard[block.row + 1][j].value = userBoard[block.row][j].value;
+                        userBoard[block.row][j].value = temp;
+                        counter++;
+                        block = userBoard[block.row + 1][j];
+    
+    
+                    }
+                    
+                    
+                }
+    
+            }
+        }
+        return userBoard;
+    
+    }
+
     //helper function to generate a random index from 0 to board size
     randomIndex() {
         let value = Math.random() * 40;
@@ -79,5 +299,74 @@ class Game {
         else if (value >= 30 && value <= 40){
             return 3;
         }
+    }
+
+    FindAdjacentTiles(userBlock, userBoard){
+        var adjacentBlocks = [];
+        
+        for ( var i = 0; i < userBoard.length; i++){
+            for (var j = 0; j < userBoard.length; j++){
+                var currentBlock = userBoard[i][j];
+                if (currentBlock.row == userBlock.row && Math.abs(currentBlock.col - userBlock.col) == 1){
+    
+                    adjacentBlocks.push(new Block(currentBlock.row, currentBlock.col, currentBlock.value));
+                }
+                if (Math.abs(currentBlock.row - userBlock.row) == 1 && (currentBlock.col == userBlock.col)){
+                    adjacentBlocks.push(new Block(currentBlock.row, currentBlock.col, currentBlock.value));
+                }
+    
+    
+            }
+        }
+        return adjacentBlocks;
+    
+    
+    }
+    //returns true if game is over
+    EndGame(userBoard){
+
+
+        for ( var i = 0; i < userBoard.length;  i++){
+            for ( var j = 0; j < userBoard.length; j++){
+                var block = userBoard[i][j];
+                var tiles = FindAdjacentTiles(block, userBoard);
+                for (let k = 0; k < tiles.length; k++){
+                    if (tiles[k].value == block.value || tiles[k].value == 0){
+                        return false;
+                    }
+                    
+                }
+            }
+        }
+        return true;
+    }
+    Winner(userBoard){
+        for (i = 0; i < userBoard.length; i++){
+            for (j = 0; j < userBoard.length; j++){
+                if(userBoard[i][j].value == 2048){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    spawn(userBoard){
+
+        i = RandomIndex();
+        j = RandomIndex();
+    
+        while (userBoard[i][j].value != 0 ){
+            i = RandomIndex();
+            j = RandomIndex();
+        }
+    
+        if (RandomIndex() <= 1){
+            userBoard[i][j].value = 2;
+        }
+    
+        else{
+            userBoard[i][j].value = 4;
+        }
+    
     }
 }

@@ -43,11 +43,31 @@ class UIHandler {
             alertTitle.innerHTML = "Better luck next time!";
         }
     }
+    //draws board to ui
+    drawBoard(userBoard) {
+        for(let i=0; i < userBoard.length; i++) {
+            for(let j = 0; j < userBoard.length; j++) {
+                if(userBoard[i][j].value != 0) {
+                    this.addBlock([i,j], userBoard[i][j].value);  
+                }else {
+                    this.removeBlock([i,j]);
+                }
+            }
+        }
+    }
+    //clears board ui
+    clearBoard(boardLength) {
+        for(let i=0; i < boardLength; i++) {
+            for(let j=0; j < boardLength; j++) {
+                this.removeBlock([i,j]);
+            }
+        }
+    }
     //helper method to turn array length 2 into a base-10 number that also represents 
     //the cell number in the 4x4 grid
     convertLoc(loc) {
         let row = loc[0];
         let col = loc[1];
-        return ((col * 3) + (row + col));
+        return ((row * 3) + (row + col));
     }
 }

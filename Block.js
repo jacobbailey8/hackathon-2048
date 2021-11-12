@@ -76,6 +76,7 @@ function values(userBoard){
 
 }
 function ShiftRight(userBoard){
+    //counter = 0; // added
     
     for (i = 0; i < userBoard.length; i++){
         for(j = userBoard.length - 1; j >= 0; j-- ){
@@ -104,6 +105,15 @@ function ShiftRight(userBoard){
 }
 
 function MoveRight(userBoard){
+    //adding
+    var testBlock = [];
+    for (var w = 0; w < userBoard.length; w++){
+        testBlock.push([]);
+        for (var z = 0; z < userBoard.length; z++){
+            testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
+        }
+    }
+
    
     counter = 0;
     userBoard = ShiftRight(userBoard);
@@ -126,9 +136,23 @@ function MoveRight(userBoard){
 
     }
     userBoard = ShiftRight(userBoard);
-    if (counter > 0){
+    var sum = 0;
+
+    for (b = 0; b < userBoard.length;b++){
+        for(c = 0; c < userBoard.length;c++){
+            //console.log(userBoard[b][c]);
+            //console.log(testBlock[b][c]);
+            if (userBoard[b][c].value == testBlock[b][c].value){
+                sum++;
+ c
+            }
+        }
+    }
+
+    if (sum < 16){
         spawn(userBoard);
     }
+    
     
     values(userBoard);
     return userBoard;
@@ -380,6 +404,9 @@ var gameBoard = createBoard(4 , 4);
 values(gameBoard);
 
 
+for (a = 0; a < 15; a++){
+    MoveRight(gameBoard);
+}
 
 
 

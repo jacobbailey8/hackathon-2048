@@ -67,6 +67,13 @@ class Game {
         }
     }
     MoveRight(userBoard){
+        var testBlock = [];
+        for (var w = 0; w < userBoard.length; w++){
+            testBlock.push([]);
+            for (var z = 0; z < userBoard.length; z++){
+                testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
+            }
+        }
         console.log("moving right...");
         let counter = 0;
         userBoard = this.ShiftRight(userBoard);
@@ -90,7 +97,22 @@ class Game {
         }
         userBoard = this.ShiftRight(userBoard);
         //if (counter > 0){
-            this.spawn(userBoard);
+            var sum = 0;
+
+            for (var b = 0; b < userBoard.length;b++){
+                for(var c = 0; c < userBoard.length;c++){
+                    //console.log(userBoard[b][c]);
+                    //console.log(testBlock[b][c]);
+                    if (userBoard[b][c].value == testBlock[b][c].value){
+                        sum++;
+         c
+                    }
+                }
+            }
+        
+            if (sum < 16){
+                this.spawn(userBoard);
+            }
         //}
         //values(userBoard);
         return userBoard;
@@ -124,6 +146,13 @@ class Game {
     
     }
     MoveLeft(userBoard){
+        var testBlock = [];
+        for (var w = 0; w < userBoard.length; w++){
+            testBlock.push([]);
+            for (var z = 0; z < userBoard.length; z++){
+                testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
+            }
+        }
         let counter = 0;
         userBoard = ShiftLeft(userBoard);
         for (let i = 0; i < userBoard.length; i++){
@@ -146,7 +175,22 @@ class Game {
         }
         userBoard = ShiftLeft(userBoard);
         //if (counter > 0){
-            spawn(userBoard);
+            var sum = 0;
+
+            for (var b = 0; b < userBoard.length;b++){
+                for(var c = 0; c < userBoard.length;c++){
+                    //console.log(userBoard[b][c]);
+                    //console.log(testBlock[b][c]);
+                    if (userBoard[b][c].value == testBlock[b][c].value){
+                        sum++;
+         c
+                    }
+                }
+            }
+        
+            if (sum < 16){
+                this.spawn(userBoard);
+            }
         //}
         return userBoard;
     
@@ -176,6 +220,13 @@ class Game {
     
     }
     MoveUp(userBoard){
+        var testBlock = [];
+        for (var w = 0; w < userBoard.length; w++){
+            testBlock.push([]);
+            for (var z = 0; z < userBoard.length; z++){
+                testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
+            }
+        }
         let counter = 0;
     
         userBoard = ShiftUp(userBoard);
@@ -199,7 +250,22 @@ class Game {
         }
         userBoard = ShiftUp(userBoard);
         //if (counter > 0){
-            spawn(userBoard);
+            var sum = 0;
+
+            for (var b = 0; b < userBoard.length;b++){
+                for(var c = 0; c < userBoard.length;c++){
+                    //console.log(userBoard[b][c]);
+                    //console.log(testBlock[b][c]);
+                    if (userBoard[b][c].value == testBlock[b][c].value){
+                        sum++;
+         c
+                    }
+                }
+            }
+        
+            if (sum < 16){
+                this.spawn(userBoard);
+            }
         //}
         return userBoard;
     
@@ -229,6 +295,13 @@ class Game {
     
     }
     MoveDown(userBoard){
+        var testBlock = [];
+        for (var w = 0; w < userBoard.length; w++){
+            testBlock.push([]);
+            for (var z = 0; z < userBoard.length; z++){
+                testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
+            }
+        }
         let counter = 0;
         userBoard = ShiftDown(userBoard);
         for (let i = userBoard.length - 1; i >= 0; i--){
@@ -251,7 +324,22 @@ class Game {
         }
         userBoard = ShiftDown(userBoard);
         //if (counter > 0){
-            spawn(userBoard);
+            var sum = 0;
+
+            for (var b = 0; b < userBoard.length;b++){
+                for(var c = 0; c < userBoard.length;c++){
+                    //console.log(userBoard[b][c]);
+                    //console.log(testBlock[b][c]);
+                    if (userBoard[b][c].value == testBlock[b][c].value){
+                        sum++;
+         c
+                    }
+                }
+            }
+        
+            if (sum < 16){
+                this.spawn(userBoard);
+            }
         //}
         return userBoard;
     

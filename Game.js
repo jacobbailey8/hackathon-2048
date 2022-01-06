@@ -74,7 +74,6 @@ class Game {
                 testBlock[w][z] = new Block(w, z, userBoard[w][z].value);
             }
         }
-        console.log("moving right...");
         let counter = 0;
         userBoard = this.ShiftRight(userBoard);
         for (let i = 0; i < userBoard.length; i++){

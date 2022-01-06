@@ -68,10 +68,6 @@ function values(userBoard){
             arry[i].push(userBoard[i][j].value);
         }
     }
-    for (i = 0; i < userBoard.length; i++){
-        console.log(...arry[i] + "\n");
-    }
-    console.log("\n\n\n");
     
 
 }
